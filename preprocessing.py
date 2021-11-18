@@ -41,14 +41,15 @@ def split_dataset(df: pd.DataFrame,
 def standard_scale(data: pd.DataFrame,
                    columns_to_transform: list[str]) -> pd.DataFrame:
     df = data.copy()
-    for column in columns_to_transform:
-        df[column] = ((df[column] - df[column].mean())
-            / df[column].std())
+    df[columns_to_transform] = df[columns_to_transform].apply(
+        lambda col: (col - col.mean) / col.std(), axis=1
+    )
     return df
 
 def log_normalize(data: pd.DataFrame,
                   columns_to_transform: list[str]) -> pd.DataFrame:
     df = data.copy()
-    for column in columns_to_transform:
-        df[column] = np.log(df[column])
+    df[columns_to_transform] = df[columns_to_transform].apply(
+        lambda col: np.log(col), axis=1
+    )
     return df
